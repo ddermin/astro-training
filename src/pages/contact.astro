@@ -1,4 +1,5 @@
 ---
+import Menu from '../components/Menu.astro';
 const titulo = "Contacto";
 ---
 
@@ -8,14 +9,7 @@ const titulo = "Contacto";
     <title>{titulo}</title>
   </head>
   <body>
-    <nav>
-      <a href="/">Inicio</a> | 
-      <a href="/about">Acerca de</a> | 
-      <a href="/students">Estudiantes</a> | 
-      <a href="/software">Software</a> | 
-      <a href="/contact">Contacto</a>
-    </nav>
-    <hr />
+    <Menu />
 
     <h1>{titulo}</h1>
     <p>Ponte en contacto con nosotros para más información.</p>
