@@ -1,46 +1,79 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import StudentCard from '../components/StudentCard.astro';
+import { getCollection } from 'astro:content';
 
 const titulo = "Estudiantes";
 
-// Creamos el arreglo de objetos con los datos de los alumnos
-const students = [
-  {
-    nombre: "Fernando Renteria Soria",
-    carrera: "Ingeniería Informática",
-    semestre: "8vo",
-    activo: true
-  },
-  {
-    nombre: "Ana López",
-    carrera: "Ciencias de la Computación",
-    semestre: "6to",
-    activo: true
-  },
-  {
-    nombre: "Carlos Ruiz",
-    carrera: "Diseño de Videojuegos",
-    semestre: "9no",
-    activo: true
-  }
-];
-
-// Ejemplo de uso de filter() por si deseas filtrar solo alumnos activos
-const activeStudents = students.filter((student) => student.activo);
+// Obtenemos los registros directamente desde la Content Collection
+const allStudents = await getCollection('students');
 ---
 
 <BaseLayout pageTitle={titulo}>
-  <h1>Directorio de Estudiantes</h1>
+  <h1>Directorio de Estudiantes (Content Collections)</h1>
   <div class="grid-container">
     {
-      students.map((student) => (
-        <StudentCard 
-          nombre={student.nombre} 
-          carrera={student.carrera} 
-          semestre={student.semestre} 
-        />
-      ))
+      allStudents.map((student) => {
+        const data = student.data;
+        return (
+          <article class="card">
+            <h2>👨‍🎓 {data.name}</h2>
+            <p><strong>Grado:</strong> {data.degree}</p>
+            <p><strong>Estado:</strong> <span class={data.status}>{data.status}</span></p>
+            <p><strong>Director:</strong> {data.director}</p>
+            {data.codirector && <p><strong>Codirector:</strong> {data.codirector}</p>}
+            <p><strong>Tesis:</strong> {data.thesis}</p>
+            {data.repository && (
+              <p>
+                <a href={data.repository} target="_blank" rel="noopener noreferrer">
+                  Ver Repositorio 🔗
+                </a>
+              </p>
+            )}
+          </article>
+        );
+      })
     }
   </div>
 </BaseLayout>
+
+<style>
+  .card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  h2 {
+    font-size: 1.2rem;
+    color: #1e293b;
+    margin-bottom: 0.25rem;
+  }
+  p {
+    color: #475569;
+    font-size: 0.9rem;
+  }
+  .active {
+    color: #16a34a;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+  }
+  .graduated {
+    color: #2563eb;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+  }
+  a {
+    color: #0284c7;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+</style>
