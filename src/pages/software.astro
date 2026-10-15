@@ -2,35 +2,51 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SoftwareCard from '../components/SoftwareCard.astro';
 
-const titulo = "Software";
+const titulo = "Software - LASAID";
 
 const systems = [
   {
     slug: "ner-dd",
     sistema: "NER-DD",
-    descripcion: "Plataforma de extracción y análisis de datos."
+    imagen: "https://placehold.co/600x300/0284c7/ffffff?text=NER-DD",
+    descripcion: "Plataforma de extracción y análisis de datos documentales mediante reconocimiento de entidades.",
+    sitioWeb: "https://lasaid.example.org/ner-dd",
+    repositorio: "https://github.com/ddermin/astro-training",
+    publicacion: "IEEE Access (2025) - Named Entity Recognition for Data Discovery"
   },
   {
     slug: "ggg",
     sistema: "GGG",
-    descripcion: "Gestor general de recursos y procesos."
+    imagen: "https://placehold.co/600x300/0f172a/ffffff?text=Sistema+GGG",
+    descripcion: "Gestor general de recursos, flujos de trabajo y monitoreo de procesos académicos.",
+    sitioWeb: "https://lasaid.example.org/ggg",
+    repositorio: "https://github.com/ddermin/astro-training",
+    publicacion: "Journal of Systems & Software (2025) - GGG Architecture"
   },
   {
     slug: "signapros",
     sistema: "SignAPROS",
-    descripcion: "Sistema de procesamiento de señales avanzado."
+    imagen: "https://placehold.co/600x300/0369a1/ffffff?text=SignAPROS",
+    descripcion: "Sistema avanzado para el procesamiento, filtrado y visualización de señales digitales.",
+    sitioWeb: "https://lasaid.example.org/signapros",
+    repositorio: "https://github.com/ddermin/astro-training",
+    publicacion: "Signal Processing Letters (2026) - SignAPROS Framework"
   }
 ];
 ---
 
 <BaseLayout pageTitle={titulo}>
-  <h1>Sistemas Desarrollados</h1>
+  <h1>Sistemas Desarrollados en LASAID</h1>
   <div class="grid-container">
     {
       systems.map((item) => (
         <SoftwareCard 
-          sistema={item.sistema} 
-          descripcion={item.descripcion} 
+          sistema={item.sistema}
+          imagen={item.imagen}
+          descripcion={item.descripcion}
+          sitioWeb={item.sitioWeb}
+          repositorio={item.repositorio}
+          publicacion={item.publicacion}
           slug={item.slug}
         />
       ))

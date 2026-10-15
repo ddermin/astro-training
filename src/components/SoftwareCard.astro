@@ -1,55 +1,68 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import SoftwareCard from '../components/SoftwareCard.astro';
-
-const titulo = "Software - LASAID";
-
-const systems = [
-  {
-    slug: "ner-dd",
-    sistema: "NER-DD",
-    imagen: "https://placehold.co/600x300/0284c7/ffffff?text=NER-DD",
-    descripcion: "Plataforma de extracción y análisis de datos documentales mediante reconocimiento de entidades.",
-    sitioWeb: "https://lasaid.example.org/ner-dd",
-    repositorio: "https://github.com/ddermin/astro-training",
-    publicacion: "IEEE Access (2025) - Named Entity Recognition for Data Discovery"
-  },
-  {
-    slug: "ggg",
-    sistema: "GGG",
-    imagen: "https://placehold.co/600x300/0f172a/ffffff?text=Sistema+GGG",
-    descripcion: "Gestor general de recursos, flujos de trabajo y monitoreo de procesos académicos.",
-    sitioWeb: "https://lasaid.example.org/ggg",
-    repositorio: "https://github.com/ddermin/astro-training",
-    publicacion: "Journal of Systems & Software (2025) - GGG Architecture"
-  },
-  {
-    slug: "signapros",
-    sistema: "SignAPROS",
-    imagen: "https://placehold.co/600x300/0369a1/ffffff?text=SignAPROS",
-    descripcion: "Sistema avanzado para el procesamiento, filtrado y visualización de señales digitales.",
-    sitioWeb: "https://lasaid.example.org/signapros",
-    repositorio: "https://github.com/ddermin/astro-training",
-    publicacion: "Signal Processing Letters (2026) - SignAPROS Framework"
-  }
-];
+const { sistema, imagen, descripcion, sitioWeb, repositorio, publicacion, slug } = Astro.props;
 ---
-
-<BaseLayout pageTitle={titulo}>
-  <h1>Sistemas Desarrollados en LASAID</h1>
-  <div class="grid-container">
-    {
-      systems.map((item) => (
-        <SoftwareCard 
-          sistema={item.sistema}
-          imagen={item.imagen}
-          descripcion={item.descripcion}
-          sitioWeb={item.sitioWeb}
-          repositorio={item.repositorio}
-          publicacion={item.publicacion}
-          slug={item.slug}
-        />
-      ))
-    }
+<article class="software-card">
+  <img src={imagen} alt={`Logo de ${sistema}`} class="software-img" />
+  <h3>💻 {sistema}</h3>
+  <p class="desc">{descripcion}</p>
+  
+  <div class="meta-links">
+    <p><strong>🌐 Sitio web:</strong> <a href={sitioWeb} target="_blank">Visitar sitio</a></p>
+    <p><strong>📦 Repositorio:</strong> <a href={repositorio} target="_blank">GitHub</a></p>
+    <p><strong>📄 Publicación:</strong> {publicacion}</p>
   </div>
-</BaseLayout>
+
+  {slug && <a href={`/software/${slug}`} class="detail-link">Ver ficha completa →</a>}
+</article>
+
+<style>
+  .software-card {
+    background-color: #f0f7ff;
+    border: 1px solid #bae6fd;
+    padding: 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .software-img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+    background-color: #e0f2fe;
+    margin-bottom: 0.25rem;
+  }
+  h3 {
+    color: #0369a1;
+    font-size: 1.25rem;
+  }
+  .desc {
+    color: #334155;
+    font-size: 0.95rem;
+  }
+  .meta-links {
+    font-size: 0.85rem;
+    color: #475569;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-top: 0.25rem;
+  }
+  .meta-links a {
+    color: #0284c7;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .detail-link {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    color: #0369a1;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  .detail-link:hover, .meta-links a:hover {
+    text-decoration: underline;
+  }
+</style>
