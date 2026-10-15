@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const students = await getCollection('students');
+  
+  return students.map((student) => {
+    // Limpiamos la extensión por seguridad para obtener el slug limpio
+    const slug = student.id.replace(/\.md$/, '');
+    return {
+      params: { slug },
+      props: { student },
+    };
+  });
+}
+
+const { student } = Astro.props;
+const { data } = student;
+const { Content } = await render(student);
+---
+
+<BaseLayout pageTitle={data.name}>
+  <a href="/students" class="back-link">← Volver al directorio de estudiantes</a>
+  
+  <article class="detail-card">
+    <h1>👨‍🎓 {data.name}</h1>
+    <p><strong>Grado:</strong> {data.degree}</p>
+    <p><strong>Estado:</strong> <span class={data.status}>{data.status}</span></p>
+    <p><strong>Director:</strong> {data.director}</p>
+    {data.codirector && <p><strong>Codirector:</strong> {data.codirector}</p>}
+    <p><strong>Tesis:</strong> {data.thesis}</p>
+    
+    {data.repository && (
+      <p>
+        <a href={data.repository} target="_blank" rel="noopener noreferrer" class="repo-btn">
+          Ver Repositorio en GitHub 🔗
+        </a>
+      </p>
+    )}
+
+    <hr />
+    <div class="bio">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .back-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: #0284c7;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .back-link:hover {
+    text-decoration: underline;
+  }
+  .detail-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .active {
+    color: #16a34a;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  .graduated {
+    color: #2563eb;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  hr {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 1rem 0;
+  }
+  .bio {
+    color: #334155;
+  }
+</style>

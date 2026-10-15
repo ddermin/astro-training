@@ -3,40 +3,190 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const titulo = "Estudiantes";
-
-// Obtenemos los registros directamente desde la Content Collection
 const allStudents = await getCollection('students');
 ---
 
 <BaseLayout pageTitle={titulo}>
-  <h1>Directorio de Estudiantes (Content Collections)</h1>
-  <div class="grid-container">
+  <h1>Directorio de Estudiantes</h1>
+
+  <!-- Panel de Controles Interactivos (Filtros y Búsqueda) -->
+  <section class="filters-panel">
+    <div class="search-box">
+      <input 
+        type="text" 
+        id="search-input" 
+        placeholder="🔍 Buscar alumno por nombre o tesis..." 
+      />
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Grado:</span>
+      <button class="filter-btn degree-btn active-filter" data-degree="all">Todos</button>
+      <button class="filter-btn degree-btn" data-degree="Licenciatura">Licenciatura</button>
+      <button class="filter-btn degree-btn" data-degree="Maestría">Maestría</button>
+      <button class="filter-btn degree-btn" data-degree="Doctorado">Doctorado</button>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Estado:</span>
+      <button class="filter-btn status-btn active-filter" data-status="all">Todos</button>
+      <button class="filter-btn status-btn" data-status="active">Activos</button>
+      <button class="filter-btn status-btn" data-status="graduated">Egresados</button>
+    </div>
+  </section>
+
+  <!-- Contenedor de Tarjetas -->
+  <div class="grid-container" id="students-grid">
     {
       allStudents.map((student) => {
         const data = student.data;
+        const slug = student.id.replace(/\.md$/, '');
         return (
-          <article class="card">
+          <article 
+            class="card student-card" 
+            data-degree={data.degree} 
+            data-status={data.status}
+            data-search={`${data.name.toLowerCase()} ${data.thesis.toLowerCase()}`}
+          >
             <h2>👨‍🎓 {data.name}</h2>
             <p><strong>Grado:</strong> {data.degree}</p>
-            <p><strong>Estado:</strong> <span class={data.status}>{data.status}</span></p>
+            <p><strong>Estado:</strong> <span class={data.status}>{data.status === 'active' ? 'Activo' : 'Egresado'}</span></p>
             <p><strong>Director:</strong> {data.director}</p>
             {data.codirector && <p><strong>Codirector:</strong> {data.codirector}</p>}
             <p><strong>Tesis:</strong> {data.thesis}</p>
-            {data.repository && (
-              <p>
-                <a href={data.repository} target="_blank" rel="noopener noreferrer">
-                  Ver Repositorio 🔗
-                </a>
-              </p>
-            )}
+            <p style="margin-top: 0.5rem;">
+              <a href={`/students/${slug}`}>Ver perfil completo →</a>
+            </p>
           </article>
         );
       })
     }
   </div>
+
+  <!-- Mensaje cuando ningún alumno coincide con el filtro -->
+  <p id="no-results" class="no-results" style="display: none;">
+    No se encontraron estudiantes con los filtros seleccionados.
+  </p>
 </BaseLayout>
 
+<script>
+  // JavaScript cliente para interactividad de filtros y búsqueda
+  let selectedDegree = 'all';
+  let selectedStatus = 'all';
+  let searchQuery = '';
+
+  const degreeButtons = document.querySelectorAll('.degree-btn');
+  const statusButtons = document.querySelectorAll('.status-btn');
+  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+  const cards = document.querySelectorAll('.student-card') as NodeListOf<HTMLElement>;
+  const noResults = document.getElementById('no-results');
+
+  function filterStudents() {
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const cardDegree = card.getAttribute('data-degree');
+      const cardStatus = card.getAttribute('data-status');
+      const cardSearch = card.getAttribute('data-search') || '';
+
+      const matchesDegree = selectedDegree === 'all' || cardDegree === selectedDegree;
+      const matchesStatus = selectedStatus === 'all' || cardStatus === selectedStatus;
+      const matchesSearch = cardSearch.includes(searchQuery.toLowerCase());
+
+      if (matchesDegree && matchesStatus && matchesSearch) {
+        card.style.display = 'flex';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    if (noResults) {
+      noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+  }
+
+  // Eventos para botones de Grado
+  degreeButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      degreeButtons.forEach((b) => b.classList.remove('active-filter'));
+      btn.classList.add('active-filter');
+      selectedDegree = btn.getAttribute('data-degree') || 'all';
+      filterStudents();
+    });
+  });
+
+  // Eventos para botones de Estado
+  statusButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      statusButtons.forEach((b) => b.classList.remove('active-filter'));
+      btn.classList.add('active-filter');
+      selectedStatus = btn.getAttribute('data-status') || 'all';
+      filterStudents();
+    });
+  });
+
+  // Evento para la barra de búsqueda
+  searchInput?.addEventListener('input', (e) => {
+    searchQuery = (e.target as HTMLInputElement).value;
+    filterStudents();
+  });
+</script>
+
 <style>
+  .filters-panel {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 1.25rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  }
+  .search-box input {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+  }
+  .search-box input:focus {
+    border-color: #0284c7;
+  }
+  .filter-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .filter-label {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #334155;
+    margin-right: 0.25rem;
+  }
+  .filter-btn {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    padding: 0.4rem 0.85rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+  }
+  .filter-btn:hover {
+    background: #e2e8f0;
+  }
+  .filter-btn.active-filter {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #0284c7;
+  }
   .card {
     background: #ffffff;
     border: 1px solid #e2e8f0;
@@ -71,9 +221,15 @@ const allStudents = await getCollection('students');
   a {
     color: #0284c7;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
   }
   a:hover {
     text-decoration: underline;
+  }
+  .no-results {
+    text-align: center;
+    padding: 2rem;
+    color: #64748b;
+    font-weight: 500;
   }
 </style>

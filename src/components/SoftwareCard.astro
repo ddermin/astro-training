@@ -1,9 +1,10 @@
 ---
-const { sistema, descripcion } = Astro.props;
+const { sistema, descripcion, slug } = Astro.props;
 ---
 <article class="software-card">
   <h3>💻 Sistema: {sistema}</h3>
   <p>{descripcion}</p>
+  {slug && <a href={`/software/${slug}`} class="link">Ver detalles →</a>}
 </article>
 
 <style>
@@ -23,5 +24,15 @@ const { sistema, descripcion } = Astro.props;
   p {
     color: #334155;
     font-size: 0.95rem;
+  }
+  .link {
+    margin-top: 0.5rem;
+    color: #0284c7;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  .link:hover {
+    text-decoration: underline;
   }
 </style>

@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export function getStaticPaths() {
+  const systems = [
+    {
+      slug: "ner-dd",
+      sistema: "NER-DD",
+      descripcion: "Plataforma de extracción y análisis de datos.",
+      detalles: "Sistema especializado en el reconocimiento de entidades nombradas y minería de datos documental."
+    },
+    {
+      slug: "ggg",
+      sistema: "GGG",
+      descripcion: "Gestor general de recursos y procesos.",
+      detalles: "Herramienta centralizada para la administración y monitoreo eficiente de flujos de trabajo."
+    },
+    {
+      slug: "signapros",
+      sistema: "SignAPROS",
+      descripcion: "Sistema de procesamiento de señales avanzado.",
+      detalles: "Plataforma de análisis, filtrado y visualización de señales digitales en tiempo real."
+    }
+  ];
+
+  return systems.map((item) => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+---
+
+<BaseLayout pageTitle={`Sistema ${item.sistema}`}>
+  <a href="/software" class="back-link">← Volver a Sistemas</a>
+
+  <article class="software-detail">
+    <h1>💻 Sistema: {item.sistema}</h1>
+    <p class="subtitle">{item.descripcion}</p>
+    <hr />
+    <p>{item.detalles}</p>
+  </article>
+</BaseLayout>
+
+<style>
+  .back-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: #0284c7;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .back-link:hover {
+    text-decoration: underline;
+  }
+  .software-detail {
+    background-color: #f0f7ff;
+    border: 1px solid #bae6fd;
+    padding: 2rem;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .subtitle {
+    font-weight: 600;
+    color: #0369a1;
+    font-size: 1.1rem;
+  }
+  hr {
+    border: 0;
+    border-top: 1px solid #bae6fd;
+    margin: 0.5rem 0;
+  }
+</style>

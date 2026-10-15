@@ -4,17 +4,19 @@ import SoftwareCard from '../components/SoftwareCard.astro';
 
 const titulo = "Software";
 
-// Arreglo de objetos con los datos de cada sistema
 const systems = [
   {
+    slug: "ner-dd",
     sistema: "NER-DD",
     descripcion: "Plataforma de extracción y análisis de datos."
   },
   {
+    slug: "ggg",
     sistema: "GGG",
     descripcion: "Gestor general de recursos y procesos."
   },
   {
+    slug: "signapros",
     sistema: "SignAPROS",
     descripcion: "Sistema de procesamiento de señales avanzado."
   }
@@ -29,6 +31,7 @@ const systems = [
         <SoftwareCard 
           sistema={item.sistema} 
           descripcion={item.descripcion} 
+          slug={item.slug}
         />
       ))
     }
