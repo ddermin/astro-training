@@ -1,17 +1,14 @@
 ---
-import Menu from '../components/Menu.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StudentCard from '../components/StudentCard.astro';
 const titulo = "Estudiantes";
 ---
 
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <title>{titulo}</title>
-  </head>
-  <body>
-    <Menu />
-
-    <h1>{titulo}</h1>
-    <p>Directorio e información relevante para los alumnos.</p>
-  </body>
-</html>
+<BaseLayout pageTitle={titulo}>
+  <h1>Directorio de Estudiantes</h1>
+  <div class="grid-container">
+    <StudentCard nombre="Fernando Renteria Soria" carrera="Ingeniería Informática" semestre="8vo" />
+    <StudentCard nombre="Ana López" carrera="Ciencias de la Computación" semestre="6to" />
+    <StudentCard nombre="Carlos Ruiz" carrera="Diseño de Videojuegos" semestre="9no" />
+  </div>
+</BaseLayout>

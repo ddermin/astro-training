@@ -1,17 +1,9 @@
 ---
-import Menu from '../components/Menu.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 const titulo = "Contacto";
 ---
 
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <title>{titulo}</title>
-  </head>
-  <body>
-    <Menu />
-
-    <h1>{titulo}</h1>
-    <p>Ponte en contacto con nosotros para más información.</p>
-  </body>
-</html>
+<BaseLayout pageTitle={titulo}>
+  <h1>{titulo}</h1>
+  <p>Ponte en contacto con nosotros para más información.</p>
+</BaseLayout>

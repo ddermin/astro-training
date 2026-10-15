@@ -1,0 +1,81 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const { pageTitle } = Astro.props;
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <!-- Etiqueta indispensable para que funcione el diseño responsive en móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    
+    <!-- CSS Global -->
+    <style is:global>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        line-height: 1.6;
+        color: #1e293b;
+        background-color: #f8fafc;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      main {
+        max-width: 1100px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+        flex: 1;
+      }
+      h1 {
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+        color: #0f172a;
+      }
+      
+      /* CSS Grid para las tarjetas (Desktop: 3 columnas por defecto) */
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      /* Tablet (máximo 900px: 2 columnas) */
+      @media (max-width: 900px) {
+        .grid-container {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      /* Mobile (máximo 600px: 1 columna) */
+      @media (max-width: 600px) {
+        .grid-container {
+          grid-template-columns: 1fr;
+        }
+        h1 {
+          font-size: 1.6rem;
+          text-align: center;
+        }
+        main {
+          padding: 1.25rem 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

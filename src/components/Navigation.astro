@@ -1,0 +1,44 @@
+---
+---
+<nav class="nav">
+  <a href="/">Inicio</a>
+  <a href="/about">Acerca de</a>
+  <a href="/students">Estudiantes</a>
+  <a href="/software">Software</a>
+  <a href="/contact">Contacto</a>
+</nav>
+
+<style>
+  .nav {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .nav a {
+    text-decoration: none;
+    color: #475569;
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+  .nav a:hover {
+    background-color: #e2e8f0;
+    color: #0f172a;
+  }
+
+  /* Mobile: Enlaces apilados al 100% de ancho */
+  @media (max-width: 600px) {
+    .nav {
+      flex-direction: column;
+      width: 100%;
+      gap: 0.4rem;
+    }
+    .nav a {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background-color: #f1f5f9;
+    }
+  }
+</style>

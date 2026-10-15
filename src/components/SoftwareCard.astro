@@ -1,0 +1,27 @@
+---
+const { sistema, descripcion } = Astro.props;
+---
+<article class="software-card">
+  <h3>💻 Sistema: {sistema}</h3>
+  <p>{descripcion}</p>
+</article>
+
+<style>
+  .software-card {
+    background-color: #f0f7ff;
+    border: 1px solid #bae6fd;
+    padding: 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  h3 {
+    color: #0369a1;
+    font-size: 1.2rem;
+  }
+  p {
+    color: #334155;
+    font-size: 0.95rem;
+  }
+</style>

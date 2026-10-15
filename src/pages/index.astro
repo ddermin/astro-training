@@ -1,20 +1,10 @@
 ---
-import Menu from '../components/Menu.astro';
-
+import BaseLayout from '../layouts/BaseLayout.astro';
 const titulo = "Entrenamiento de Astro";
 const nombre = "Dermin";
 ---
 
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <title>{titulo}</title>
-  </head>
-  <body>
-    <!-- ¡Aquí estamos inyectando tu componente! -->
-    <Menu />
-
-    <h1>Bienvenido a mi {titulo}</h1>
-    <p>Hola, mi nombre es {nombre}.</p>
-  </body>
-</html>
+<BaseLayout pageTitle={titulo}>
+  <h1>Bienvenido a mi {titulo}</h1>
+  <p>Hola, mi nombre es {nombre}.</p>
+</BaseLayout>
