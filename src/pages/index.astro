@@ -1,10 +1,99 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-const titulo = "Entrenamiento de Astro";
-const nombre = "Dermin";
+const titulo = "LASAID - Inicio";
 ---
 
 <BaseLayout pageTitle={titulo}>
-  <h1>Bienvenido a mi {titulo}</h1>
-  <p>Hola, mi nombre es {nombre}.</p>
+  <section class="hero">
+    <h1>🔬 LASAID</h1>
+    <p class="description">
+      Laboratorio de investigación y desarrollo enfocado en la generación de soluciones tecnológicas, formación de talento de posgrado y licenciatura, y creación de sistemas de software especializado.
+    </p>
+    <div class="quick-links">
+      <a href="/students" class="btn primary">👨‍🎓 Ver Directorio de Estudiantes</a>
+      <a href="/software" class="btn secondary">💻 Explorar Sistemas de Software</a>
+    </div>
+  </section>
+
+  <section class="lines-section">
+    <h2>Líneas Principales de Investigación</h2>
+    <div class="grid-container">
+      <article class="line-card">
+        <h3>📊 Ciencia de Datos y PLN</h3>
+        <p>Extracción de información, reconocimiento de entidades nombradas y análisis avanzado de datos documentales.</p>
+      </article>
+      <article class="line-card">
+        <h3>📡 Procesamiento de Señales</h3>
+        <p>Adquisición, filtrado y modelado matemático de señales digitales y biomédicas en tiempo real.</p>
+      </article>
+      <article class="line-card">
+        <h3>⚙️ Ingeniería de Sistemas</h3>
+        <p>Diseño de arquitecturas modulares, gestión automatizada de procesos y plataformas web de alto rendimiento.</p>
+      </article>
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  .hero {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 2.5rem 2rem;
+    border-radius: 12px;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
+  }
+  .description {
+    font-size: 1.1rem;
+    color: #475569;
+    margin-bottom: 1.5rem;
+    max-width: 800px;
+  }
+  .quick-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .btn {
+    text-decoration: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+  .primary {
+    background-color: #0284c7;
+    color: #ffffff;
+  }
+  .primary:hover {
+    background-color: #0369a1;
+  }
+  .secondary {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    border: 1px solid #cbd5e1;
+  }
+  .secondary:hover {
+    background-color: #e2e8f0;
+  }
+  .lines-section h2 {
+    font-size: 1.5rem;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+  }
+  .line-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+  .line-card h3 {
+    color: #0369a1;
+    margin-bottom: 0.5rem;
+    font-size: 1.15rem;
+  }
+  .line-card p {
+    color: #475569;
+    font-size: 0.95rem;
+  }
+</style>
