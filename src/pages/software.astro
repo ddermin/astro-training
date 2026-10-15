@@ -1,14 +1,36 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SoftwareCard from '../components/SoftwareCard.astro';
+
 const titulo = "Software";
+
+// Arreglo de objetos con los datos de cada sistema
+const systems = [
+  {
+    sistema: "NER-DD",
+    descripcion: "Plataforma de extracción y análisis de datos."
+  },
+  {
+    sistema: "GGG",
+    descripcion: "Gestor general de recursos y procesos."
+  },
+  {
+    sistema: "SignAPROS",
+    descripcion: "Sistema de procesamiento de señales avanzado."
+  }
+];
 ---
 
 <BaseLayout pageTitle={titulo}>
   <h1>Sistemas Desarrollados</h1>
   <div class="grid-container">
-    <SoftwareCard sistema="NER-DD" descripcion="Plataforma de extracción y análisis de datos." />
-    <SoftwareCard sistema="GGG" descripcion="Gestor general de recursos y procesos." />
-    <SoftwareCard sistema="SignAPROS" descripcion="Sistema de procesamiento de señales avanzado." />
+    {
+      systems.map((item) => (
+        <SoftwareCard 
+          sistema={item.sistema} 
+          descripcion={item.descripcion} 
+        />
+      ))
+    }
   </div>
 </BaseLayout>

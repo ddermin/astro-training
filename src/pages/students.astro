@@ -1,14 +1,46 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import StudentCard from '../components/StudentCard.astro';
+
 const titulo = "Estudiantes";
+
+// Creamos el arreglo de objetos con los datos de los alumnos
+const students = [
+  {
+    nombre: "Fernando Renteria Soria",
+    carrera: "Ingeniería Informática",
+    semestre: "8vo",
+    activo: true
+  },
+  {
+    nombre: "Ana López",
+    carrera: "Ciencias de la Computación",
+    semestre: "6to",
+    activo: true
+  },
+  {
+    nombre: "Carlos Ruiz",
+    carrera: "Diseño de Videojuegos",
+    semestre: "9no",
+    activo: true
+  }
+];
+
+// Ejemplo de uso de filter() por si deseas filtrar solo alumnos activos
+const activeStudents = students.filter((student) => student.activo);
 ---
 
 <BaseLayout pageTitle={titulo}>
   <h1>Directorio de Estudiantes</h1>
   <div class="grid-container">
-    <StudentCard nombre="Fernando Renteria Soria" carrera="Ingeniería Informática" semestre="8vo" />
-    <StudentCard nombre="Ana López" carrera="Ciencias de la Computación" semestre="6to" />
-    <StudentCard nombre="Carlos Ruiz" carrera="Diseño de Videojuegos" semestre="9no" />
+    {
+      students.map((student) => (
+        <StudentCard 
+          nombre={student.nombre} 
+          carrera={student.carrera} 
+          semestre={student.semestre} 
+        />
+      ))
+    }
   </div>
 </BaseLayout>
